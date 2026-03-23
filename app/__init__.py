@@ -1,6 +1,8 @@
 import os
 from flask import Flask
 from flask import render_template
+from flask import redirect
+from flask import url_for
 
 def create_app(test_config=None):
     # create and configure the app
@@ -19,20 +21,13 @@ def create_app(test_config=None):
 
     # ensure the instance folder exists
     os.makedirs(app.instance_path, exist_ok=True)
+    
+    @app.route('/')
+    def index():
+        return redirect(url_for('scrapple'))
 
-    # a simple page that says hello
-    # @app.route('/')
-    # def hello_world(name=None):
-    #     return render_template('test.html.jinja', person=name)
-    
-    @app.route('/hello/')
-    @app.route('/hello/<name>')
-    
-    def hello(name=None):
-        return render_template('test.html.jinja', person=name)
-    
-    @app.route('/word_search/')
-    def word_search(word=None):
+    @app.route('/scrapple/')
+    def scrapple(word=None):
         return render_template('word_search.html.jinja', word=word)
 
 
